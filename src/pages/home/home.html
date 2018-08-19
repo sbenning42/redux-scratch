@@ -8,11 +8,21 @@
 </ion-header>
 
 <ion-content padding>
-  <h3>Ionic Menu Starter</h3>
 
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will show you the way.
-  </p>
+  <h3 (click)="authData?.authentified ? logout() : login()">{{ authData?.authentified ? 'Logout' : 'Login' }}</h3>
 
-  <button ion-button secondary menuToggle>Toggle Menu</button>
+  <ng-container [ngSwitch]="authData?.authentified">
+
+    <p *ngSwitchCase="false">
+      Please Login !
+    </p>
+
+    <ng-container *ngSwitchCase="true">
+      <h3>
+        Hello {{ authData.credentials.login }} !
+      </h3>
+      <button ion-button secondary menuToggle>Toggle Menu</button>
+    </ng-container>
+
+  </ng-container>
 </ion-content>
