@@ -4,52 +4,9 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { HomePage } from '../pages/home/home';
-import { StoreProvider } from '../providers/store/store';
-import { AuthStateProvider } from '../providers/auth-state/auth-state';
-import { StoreInstanceProvider } from '../providers/store-instance/store-instance';
-import { State } from '../redux/redux/state';
-import { Reducer } from '../redux/redux/reducer';
-import { Effect } from '../redux/redux/effect';
-import { Action } from '../redux/redux/action';
 import { Observable } from 'rxjs';
 
-export class AppState extends State<{title: string}> {}
 
-export enum AppAction {
-  change = 'change',
-  reset = 'reset'
-}
-
-export class StateReducer extends Reducer<{title: string}> {
-  reduce(state: AppState, action: Action<any>): AppState {
-    switch (action.type) {
-      case AppAction.change:
-        state.obj.title = action.value.title;
-        break ;
-      default:
-        break ;
-    }
-    return state;
-  }
-}
-
-export class StateEffect extends Effect<{title: string}> {
-  effect(state: AppState, action: Action<any>, dispatcher: (s: string, a: Action) => Observable<AppState>): Observable<AppState> {
-    return Observable.create(subscriber => {
-      console.log('StateEffect: ', action);
-      let sub;
-      switch (action.type) {
-        case AppAction.change:
-          break ;
-        case AppAction.reset:
-          sub = dispatcher('app', new Action(AppAction.change, {title: 'Redux App'})).subscribe(next => subscriber(next));
-        default:
-          break ;
-      }
-      return () => sub.unsubscribe();
-    });
-  }
-}
 
 @Component({
   templateUrl: 'app.html'
@@ -65,7 +22,6 @@ export class MyApp {
     public platform: Platform,
     public statusBar: StatusBar,
     public splashScreen: SplashScreen,
-    public store: StoreInstanceProvider
 
   ) {
     this.initializeApp();
@@ -78,12 +34,6 @@ export class MyApp {
   }
 
   initializeStore() {
-    this.store.instance.register(
-      'app',
-      new AppState({title: 'Redux App'}),
-      new StateReducer,
-      new StateEffect
-    );
   }
 
   initializeApp() {
