@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { Observable, Subscription } from 'rxjs';
 import { OverlayProvider } from '../../providers/overlay/overlay';
+import { StoreProvider } from '../../providers/store/store';
 //import { CollectionData, GetAllAction, GetOneAction, DeleteAction } from '../../redux/redux';
 
 @Component({
@@ -15,10 +16,12 @@ export class HomePage implements OnInit, OnDestroy {
   constructor(
     public navCtrl: NavController,
     public overlay: OverlayProvider,
+    public store: StoreProvider
   ) {
   }
 
   ngOnInit() {
+    this.store.test();
   }
 
   ngOnDestroy() {
