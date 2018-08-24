@@ -1,7 +1,7 @@
 /**
  * Basic immutable class
  */
-export abstract class State<T> {
+export class State<T> {
 
   constructor(public data: T) { }
 

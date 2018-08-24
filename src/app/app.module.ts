@@ -10,10 +10,10 @@ import { HomePage } from '../pages/home/home';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StoreProvider } from '../providers/store/store';
-import { AppStateProvider } from '../providers/app-state/app-state';
 import { AuthProvider } from '../providers/auth/auth';
 import { AuthStateProvider } from '../providers/auth-state/auth-state';
 import { OverlayProvider } from '../providers/overlay/overlay';
+import { StoreInstanceProvider } from '../providers/store-instance/store-instance';
 
 @NgModule({
   declarations: [
@@ -37,10 +37,10 @@ import { OverlayProvider } from '../providers/overlay/overlay';
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     StoreProvider,
-    AppStateProvider,
     AuthProvider,
     AuthStateProvider,
     OverlayProvider,
+    StoreInstanceProvider,
   ]
 })
 export class AppModule {}

@@ -3,10 +3,11 @@ import { NavController } from 'ionic-angular';
 import { StoreProvider } from '../../providers/store/store';
 import { Observable, Subscription } from 'rxjs';
 import { tap, merge } from 'rxjs/operators';
-import { AppData, appSelector } from '../../providers/app-state/app-state';
-import { AuthData, authSelector, AuthLoginAction, AuthLoginValue, AuthLogoutAction, AuthLogoutValue } from '../../providers/auth-state/auth-state';
-import { LoginRequestBody } from '../../providers/auth/auth';
 import { OverlayProvider } from '../../providers/overlay/overlay';
+//import { CollectionData, GetAllAction, GetOneAction, DeleteAction } from '../../redux/redux';
+import { StoreInstanceProvider } from '../../providers/store-instance/store-instance';
+import { AppState, AppAction } from '../../app/app.component';
+import { Action } from '../../redux/redux/action';
 
 @Component({
   selector: 'page-home',
@@ -14,57 +15,70 @@ import { OverlayProvider } from '../../providers/overlay/overlay';
 })
 export class HomePage implements OnInit, OnDestroy {
 
-  appData$: Observable<AppData>;
-  authData$: Observable<AuthData>;
-
-  appData: AppData;
-  authData: AuthData;
-
   sub: Subscription;
-  error: Error;
+  state: AppState;
 
   constructor(
     public navCtrl: NavController,
-    public store: StoreProvider,
-    public overlay: OverlayProvider
+    public overlay: OverlayProvider,
+    public store: StoreInstanceProvider
   ) {
-    this.appData$ = this.store.select<AppData>(appSelector).pipe(
-      tap((appData: AppData) => this.appDataChange(appData)),
-    );
-    this.authData$ = this.store.select<AuthData>(authSelector).pipe(
-      tap((authData: AuthData) => this.authDataChange(authData)),
-    );
   }
 
   ngOnInit() {
-    this.sub = Observable.of(true).pipe(
-      merge(this.appData$, this.authData$)
-    ).subscribe();
+    this.sub = this.store.instance.select('app').subscribe(
+      (state: AppState) => {
+        this.state = state;
+        console.log('In HomePage {state}: ', state);
+      }
+    );
   }
 
   ngOnDestroy() {
-    if (this.sub) this.sub.unsubscribe();
   }
 
-  appDataChange(appData: AppData) {
-    console.log('New AppData in HomePage: ', appData);
-    this.appData = appData;
+  fetch() {
+    this.store.instance.dispatch('app', new Action(AppAction.change, {title: 'Redux Action'})).subscribe();
   }
-
-  authDataChange(authData: AuthData) {
-    console.log('New AuthData in HomePage: ', authData);
-    this.authData = authData;
+  get(id: string) {
+    this.store.instance.dispatch('app', new Action(AppAction.reset)).subscribe();
+    // this.store.instance.dispatch();
   }
-
-  login() {
-    this.error = undefined;
-    const body = new LoginRequestBody('sben@sben.sben', 'Sben42Sben');
-    this.store.dispatch(new AuthLoginAction(new AuthLoginValue(body)));
-  }
-
-  logout() {
-    this.error = undefined;
-    this.store.dispatch(new AuthLogoutAction(new AuthLogoutValue));
+  delete(id: string) {
+    // this.store.instance.dispatch();
   }
 
 }
+
+
+
+
+
+
+
+
+
+
+  //collectionData: CollectionData;
+
+
+
+    //if (this.sub) this.sub.unsubscribe();
+/*
+  fetch() {
+    this.store.instance.dispatch('collection', new GetAllAction);
+  }
+
+  get(item: {id: string, name: string}) {
+    this.store.instance.dispatch('collection', new GetOneAction({id: item.id}));
+  }
+
+  delete(item: {id: string, name: string}) {
+    this.store.instance.dispatch('collection', new DeleteAction({id: item.id}));
+  }
+*/
+    /*this.sub = this.store.instance.select('collection').pipe(
+      tap((data: CollectionData) => this.collectionData = data),
+      tap((data: CollectionData) => console.log(data)),
+    ).subscribe();
+    */
