@@ -13,6 +13,20 @@ export class State {
   [key: string]: any;
 }
 
+export class Action {
+  constructor(public type: string, public payload?: any) {}
+}
+
+export interface Reducer {
+  reducer(state: State, action: Action): State;
+}
+
+export interface Effect {
+  providers: {[name: string]: Injectable};
+  constructor(providers?: {[name: string]: Injectable});
+  react(state: State, action: Action, store: StoreProvider): State;
+}
+
 @Injectable()
 export class StoreProvider {
 
@@ -50,7 +64,7 @@ export class StoreProvider {
 
   private _register(selectors: string[], toState: State, state: State) {
     const selector = selectors.shift();
-    toState = toState?toState:{[selector]: {}};
+    toState = toState ? toState : {};
     if (selectors.length === 0) {
       toState[selector] = state;
     } else {
@@ -71,6 +85,10 @@ export class StoreProvider {
     return stream$ ? stream$.pipe(
       distinctUntilChanged()
     ) : undefined;
+  }
+
+  dispatch(selector: string, action: Action) {
+
   }
 
 
