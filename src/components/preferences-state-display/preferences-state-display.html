@@ -1,0 +1,33 @@
+<!-- Generated template for the PreferencesStateDisplayComponent component -->
+<ion-card>
+    <ion-card-header>
+      <ion-card-title>Preferences Loaded: {{fetched}}</ion-card-title>
+      <p>User Id: {{userId}}</p>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list *ngIf="fetched">
+        <ion-item *ngFor="let preference of collection">
+          <h3>{{ preference.cle }}</h3>
+          <p>{{ preference.valeur }}</p>
+        </ion-item>
+      </ion-list>
+      <ion-list *ngIf="themeCollection">
+        <ion-item-divider></ion-item-divider>
+        <ion-item *ngFor="let theme of themeCollection">
+          <h3>{{ theme.codeTheme }} - {{ theme.libelle }}</h3>
+          <p *ngFor="let child of theme.childs">{{ child.codeTheme }} - {{ child.libelle }}</p>
+        </ion-item>
+      </ion-list>
+      <ion-list *ngIf="favoriCollection">
+        <ion-item-divider></ion-item-divider>
+        <ion-item *ngFor="let favori of favoriCollection">
+          <h3>{{ favori.alpha }} - {{ favori.item.type }}</h3>
+          <p>{{ favori.item.code }}</p>
+          <p>{{ favori.item.prenomEtNom||favori.item.nom }}</p>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+    <ion-item (click)="fetch()"><button ion-button>Fetch</button></ion-item>
+    <ion-item (click)="deserialize()"><button ion-button>Deserialize</button></ion-item>
+  </ion-card>
+  

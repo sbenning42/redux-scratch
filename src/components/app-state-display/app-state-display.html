@@ -1,0 +1,20 @@
+<!-- Generated template for the AppStateDisplayComponent component -->
+
+<ion-card [ngClass]="loading ? 'loading' : 'idle'">
+  <ion-card-header>
+      <ion-card-title>{{name}}</ion-card-title>
+      <p>{{version}}</p>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-list *ngIf="lastError || errors">
+      <ion-item *ngIf="lastError">{{ lastError?.message }}</ion-item>
+      <ion-item-divider *ngIf="lastError"></ion-item-divider>
+      <ion-item *ngFor="let error of errors; let i = index">{{i}}: {{error.message}}</ion-item>
+      <ion-item><button ion-button (click)="flushErrors()">Empty Lsit</button></ion-item>
+    </ion-list>
+  </ion-card-content>
+  <ion-item>
+    <button ion-button (click)="startLoading()" [disabled]="true">Start Loading</button>
+    <button ion-button (click)="stopLoading()" [disabled]="true">Stop Loading</button>
+  </ion-item>
+</ion-card>

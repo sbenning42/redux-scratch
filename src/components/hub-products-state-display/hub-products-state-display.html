@@ -1,0 +1,12 @@
+<!-- Generated template for the HubProductsStateDisplayComponent component -->
+<ion-card>
+  <ion-card-header>
+    <ion-card-title>Products Loaded: {{fetched}}</ion-card-title>
+  </ion-card-header>
+  <ion-card-content>
+    <ion-list *ngIf="fetched">
+      <ion-item *ngFor="let hubProduct of collection">{{ hubProduct.produit }}</ion-item>
+    </ion-list>
+  </ion-card-content>
+  <ion-item (click)="fetch()"><button ion-button>Fetch</button></ion-item>
+</ion-card>

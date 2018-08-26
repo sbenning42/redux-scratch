@@ -24,7 +24,7 @@ export class OverlayProvider {
 
   createLoading(opts: LoadingOptions) {
     if (this.isLoading) return ;
-    this.loading = this.loadingCtrl.create(opts);
+    this.loading = this.loadingCtrl.create({...opts/*, duration: 3000*/});
   }
 
   createAlrt(opts: AlertOptions) {

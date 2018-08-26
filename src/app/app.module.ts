@@ -4,13 +4,30 @@ import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
+import { SamplePageModule } from '../pages/sample/sample.module';
+
+import {
+  appReducer, AppEffects,
+  authReducer, AuthEffects,
+  hubProductsReducer, HubProductsEffects,
+  hubThemesReducer, HubThemesEffects,
+  preferencesReducer, PreferencesEffects,
+} from '../redux/redux-scratch';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StoreProvider } from '../providers/store/store';
 import { OverlayProvider } from '../providers/overlay/overlay';
+import { AuthProvider } from '../providers/auth/auth';
+import { HubProductsProvider } from '../providers/hub-products/hub-products';
+import { HubThemesProvider } from '../providers/hub-themes/hub-themes';
+import { PreferencesProvider } from '../providers/preferences/preferences';
 
 @NgModule({
   declarations: [
@@ -22,7 +39,26 @@ import { OverlayProvider } from '../providers/overlay/overlay';
     IonicModule.forRoot(MyApp),
     HttpClientModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    StoreModule.forRoot({
+      appState: appReducer,
+      authState: authReducer,
+      hubProducts: hubProductsReducer,
+      hubThemes: hubThemesReducer,
+      preferences: preferencesReducer
+    }),
+    EffectsModule.forRoot([
+      AppEffects,
+      AuthEffects,
+      HubProductsEffects,
+      HubThemesEffects,
+      PreferencesEffects
+    ]),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25, // Retains last 25 states
+      // logOnly: environment.production, // Restrict extension to log-only mode
+    }),
+    SamplePageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -35,6 +71,10 @@ import { OverlayProvider } from '../providers/overlay/overlay';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     OverlayProvider,
     StoreProvider,
+    AuthProvider,
+    HubProductsProvider,
+    HubThemesProvider,
+    PreferencesProvider,
   ]
 })
 export class AppModule {}

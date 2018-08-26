@@ -1,0 +1,47 @@
+<!-- Generated template for the AuthStateDisplayComponent component -->
+<ion-card>
+    <ion-card-header>
+        <ion-card-title>{{ authentified ? 'Hello '+(authUser?.prenom) : 'Visitor' }}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <form novalidate *ngIf="!authentified" [formGroup]="loginGroup">
+        <ion-input formControlName="login" placeholder="Email" type="email"></ion-input>
+        <ion-input formControlName="password" placeholder="Password" type="password"></ion-input>
+      </form>
+      <ng-container *ngIf="authentified">
+          <p><strong>ID:</strong> {{ authUser?.id }}</p>
+          <p><strong>EMAIL:</strong> {{ authUser?.email }}</p>
+          <p><strong>NOM:</strong> {{ authUser?.nom }}</p>
+          <p><strong>PRENOM:</strong> {{ authUser?.prenom }}</p>
+          <p><strong>CIVILITE:</strong> {{ authUser?.civilite }}</p>
+      </ng-container>
+    </ion-card-content>
+    <ion-item>
+      <button ion-button (click)="loginOrLogout()">{{ authentified ? 'Logout' : 'Login' }}</button>
+    </ion-item>
+  </ion-card>
+
+  
+          <!--
+              id: string,
+  creation: number,
+  civilite: number,
+  email: string,
+  nom: string,
+  prenom: string,
+  age: number,
+  dateNaissance: string,
+  telephoneMaison: string,
+  telephonePortable: string,
+  anciennete: number,
+  cbEnregistree: any,
+  codePostal: string,
+  derniereCommande: any,
+  idAdresseFacturation: number,
+  profilage: boolean,
+  newsLetterCarrefour: boolean,
+  newsLetterPartenaire: boolean,
+  carteFid: boolean,
+  cartePass: boolean,
+  optinGroupe: boolean,
+          -->

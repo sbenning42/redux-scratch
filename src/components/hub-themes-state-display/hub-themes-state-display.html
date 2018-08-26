@@ -1,0 +1,18 @@
+<!-- Generated template for the HubThemesStateDisplayComponent component -->
+<ion-card>
+    <ion-card-header>
+      <ion-card-title>Themes Loaded: {{fetched}}</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list *ngIf="fetched">
+        <ion-item *ngFor="let hubTheme of collection">
+          <h3>{{ hubTheme.codeTheme }} - {{ hubTheme.libelle }}</h3>
+          <p *ngFor="let hubChildTheme of hubTheme.childs">
+            &nbsp;&nbsp;&nbsp;&nbsp;{{ hubChildTheme.codeTheme }} - {{ hubChildTheme.libelle }}
+          </p>
+        </ion-item>
+        <ion-item-divider></ion-item-divider>
+      </ion-list>
+    </ion-card-content>
+    <ion-item (click)="fetch()"><button ion-button>Fetch</button></ion-item>
+  </ion-card>
