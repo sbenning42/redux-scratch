@@ -40,7 +40,7 @@ export class HubProductsStateDisplayComponent implements OnInit, OnDestroy {
 
   hubProductsStateChanged(hubProductsState: HubProductsState) {
     this.fetched = hubProductsState.fetched;
-    this.collection = hubProductsState.collection.slice(0, 10);
+    this.collection = hubProductsState.collection.slice(0, 3);
   }
 
   fetch() {

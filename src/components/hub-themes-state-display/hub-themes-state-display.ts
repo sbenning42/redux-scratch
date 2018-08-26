@@ -40,7 +40,7 @@ export class HubThemesStateDisplayComponent implements OnInit, OnDestroy {
 
   hubThemesStateChanged(hubThemesState: HubThemesState) {
     this.fetched = hubThemesState.fetched;
-    this.collection = hubThemesState.collection.slice(0, 10);
+    this.collection = hubThemesState.collection.slice(0, 3);
   }
 
   fetch() {

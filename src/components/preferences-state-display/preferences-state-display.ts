@@ -31,8 +31,10 @@ export class PreferencesStateDisplayComponent implements OnInit, OnDestroy {
   fetched: boolean = false;
   userId: id = undefined;
   collection: Preference[] = [];
+  
   themeCollection: HubTheme[];
   favorisCollection: {alpha: string, item: {alpha: string, type: string, code: string, [key: string]: any}}[];
+  
   themeSerializer = new ThemesPreferenceSerializer;
   favoriSerializer = new FavorisPreferenceSerializer;
 
