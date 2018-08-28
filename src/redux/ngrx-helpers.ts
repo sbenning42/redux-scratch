@@ -31,5 +31,4 @@ export const distinctUntilSerialChanged = () => distinctUntilChanged(
 );
 
 export const ofType = (type: string) => filter((action: Action) => type === action.type);
-
 export const ofTypes = (types: string[]) => filter((action: Action) => types.some(type => type === action.type));
