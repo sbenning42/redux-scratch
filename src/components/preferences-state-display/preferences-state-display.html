@@ -18,9 +18,9 @@
           <p *ngFor="let child of theme.childs">{{ child.codeTheme }} - {{ child.libelle }}</p>
         </ion-item>
       </ion-list>
-      <ion-list *ngIf="favoriCollection">
+      <ion-list *ngIf="favorisCollection">
         <ion-item-divider></ion-item-divider>
-        <ion-item *ngFor="let favori of favoriCollection">
+        <ion-item *ngFor="let favori of favorisCollection">
           <h3>{{ favori.alpha }} - {{ favori.item.type }}</h3>
           <p>{{ favori.item.code }}</p>
           <p>{{ favori.item.prenomEtNom||favori.item.nom }}</p>

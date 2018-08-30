@@ -18,6 +18,7 @@ import {
   hubProductsReducer, HubProductsEffects,
   hubThemesReducer, HubThemesEffects,
   preferencesReducer, PreferencesEffects,
+  globalReducer,
 } from '../redux/redux-scratch';
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -28,6 +29,9 @@ import { AuthProvider } from '../providers/auth/auth';
 import { HubProductsProvider } from '../providers/hub-products/hub-products';
 import { HubThemesProvider } from '../providers/hub-themes/hub-themes';
 import { PreferencesProvider } from '../providers/preferences/preferences';
+import { appStore } from '../store/root/state';
+import { ClientProvider } from '../providers/client/client';
+import { UserMetadataEffect, AppStatusEffect, AppProductEffect, AppThemeEffect } from '../effects/effects';
 
 @NgModule({
   declarations: [
@@ -41,18 +45,28 @@ import { PreferencesProvider } from '../providers/preferences/preferences';
     ReactiveFormsModule,
     FormsModule,
     StoreModule.forRoot({
+      ...appStore
+      /*
+      globalState: globalReducer,
       appState: appReducer,
       authState: authReducer,
       hubProducts: hubProductsReducer,
       hubThemes: hubThemesReducer,
       preferences: preferencesReducer
+      */
     }),
     EffectsModule.forRoot([
+      UserMetadataEffect,
+      AppStatusEffect,
+      AppThemeEffect,
+      AppProductEffect
+      /*
       AppEffects,
       AuthEffects,
       HubProductsEffects,
       HubThemesEffects,
       PreferencesEffects
+      */
     ]),
     StoreDevtoolsModule.instrument({
       maxAge: 25, // Retains last 25 states
@@ -75,6 +89,11 @@ import { PreferencesProvider } from '../providers/preferences/preferences';
     HubProductsProvider,
     HubThemesProvider,
     PreferencesProvider,
+    ClientProvider,
+    UserMetadataEffect,
+    AppStatusEffect,
+    AppThemeEffect,
+    AppProductEffect
   ]
 })
 export class AppModule {}

@@ -1,5 +1,9 @@
 import { Preference } from '../../../../providers/preferences/preferences';
 export { Preference } from '../../../../providers/preferences/preferences';
+import { HubTheme } from '../../../../providers/hub-themes/hub-themes';
+
+import { Observable } from 'rxjs';
+import { map, catchError, tap } from 'rxjs/operators';
 
 export interface PreferencesState {
     fetched: boolean;
@@ -14,17 +18,17 @@ export const initialPreferencesState: PreferencesState = {
 };
 
 export interface PreferenceSerializer {
-    serialize(obj: any): string;
-    deserialize(serial: string): any;
+    serialize(obj: any, ...args): string;
+    deserialize(serial: string, ...args): any;
 }
 
 export class ThemesPreferenceSerializer implements PreferenceSerializer {
-    serialize(obj: HubTheme[]): string {
+    serialize(obj: HubTheme[]): any {
         const concatChildThemes = (aggregat, chunk) => aggregat ? `${aggregat};${chunk}` : chunk;
         const concatThemesAndChilds = theme => `${theme.codeTheme};${
-            theme.childs.map(child => child.codeTheme).reduce(concatThemes, [])
+            theme.childs.map(child => child.codeTheme).reduce(concatChildThemes, [])
         }`;
-        return obj.map(concatThemesAndChilds).reduce(concatThemes, []);
+        return obj.map(concatThemesAndChilds).reduce(concatChildThemes, []);
     }
     deserialize(serial: string, references: HubTheme[]): HubTheme[] {
         const codeThemes = serial.split(';');

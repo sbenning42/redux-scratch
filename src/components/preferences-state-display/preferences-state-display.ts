@@ -6,6 +6,7 @@ import { StoreProvider } from '../../providers/store/store';
 import {
   AuthUser,
   AuthState,
+  HubTheme,
   HubThemesState,
   Preference,
   ThemesPreferenceSerializer,
@@ -29,7 +30,7 @@ export class PreferencesStateDisplayComponent implements OnInit, OnDestroy {
   sub: Subscription;
 
   fetched: boolean = false;
-  userId: id = undefined;
+  userId: string = undefined;
   collection: Preference[] = [];
   
   themeCollection: HubTheme[];
@@ -85,7 +86,7 @@ export class PreferencesStateDisplayComponent implements OnInit, OnDestroy {
     const themesPreference = this.collection.find(item => item.cle === 'userThemePreference');
     const favorisPreference = this.collection.find(item => item.cle === 'userFavori');
     this.themeCollection = this.themeSerializer.deserialize(themesPreference.valeur, this.hubThemesState.collection);
-    this.favoriCollection = this.favoriSerializer.deserialize(favorisPreference.valeur);
+    this.favorisCollection = this.favoriSerializer.deserialize(favorisPreference.valeur);
   }
 
 }

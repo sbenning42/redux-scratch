@@ -17,11 +17,16 @@
 
 
 <ion-content padding>
-
+    <button ion-button (click)="fetch()">FETCH</button>
+  <ion-input [(ngModel)]="login" type="text" placeholder="Email"></ion-input>
+  <ion-input [(ngModel)]="password" type="text" placeholder="Password"></ion-input>
+  <button ion-button (click)="loginRequest()">LOGIN</button>
+<!--
+  <global-state-display></global-state-display>
   <app-state-display></app-state-display>
   <auth-state-display></auth-state-display>
   <hub-products-state-display></hub-products-state-display>
   <hub-themes-state-display></hub-themes-state-display>
-  <preferences-state-display></preferences-state-display>
+  <preferences-state-display></preferences-state-display> -->
 
 </ion-content>

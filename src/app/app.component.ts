@@ -6,6 +6,10 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { HomePage } from '../pages/home/home';
 import { SamplePage } from '../pages/sample/sample';
 import { Observable } from 'rxjs';
+import { StoreProvider } from '../providers/store/store';
+import { map } from '../redux/ngrx-helpers';
+import { GlobalState } from '../redux/redux-scratch';
+import { AppStatusStore, AppProcessStatuses } from '../store/root/state';
 
 
 
@@ -23,6 +27,7 @@ export class MyApp {
     public platform: Platform,
     public statusBar: StatusBar,
     public splashScreen: SplashScreen,
+    public storeProvider: StoreProvider
 
   ) {
     this.initializeApp();
@@ -35,16 +40,30 @@ export class MyApp {
 
   }
 
+  startAppWhenProcessStatusIsReady() {
+    const s = this.storeProvider.manager.selectAppStatus()
+      .subscribe((appStatusStore: AppStatusStore) => {
+        if (appStatusStore.process === AppProcessStatuses.ready) {
+          this.rootPage = SamplePage;
+          console.log('Store Ready ! ', appStatusStore.process);
+          s.unsubscribe();
+        } else {
+          console.log('Store not ready yet: ', appStatusStore.process);
+        }
+      });
+  }
+
   initializeStore() {
+    this.storeProvider.manager.appStatusSetProcessReady();
   }
 
   initializeApp() {
     this.platform.ready().then(() => {
-      this.initializeStore();
+      this.startAppWhenProcessStatusIsReady();
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
-      this.rootPage = HomePage;
       this.statusBar.styleDefault();
+      this.initializeStore();
       this.splashScreen.hide();
     });
   }

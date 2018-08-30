@@ -3,9 +3,8 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 import { StoreProvider } from '../../providers/store/store';
 
-import { AppState } from '../../redux/redux-scratch';
-
 import { Subscription } from 'rxjs';
+import { AppMetadataStore, AppErrorActionType, AppProductActionType } from '../../store/root/state';
 
 /**
  * Generated class for the SamplePage page.
@@ -22,25 +21,36 @@ import { Subscription } from 'rxjs';
 export class SamplePage {
   
   sub: Subscription;
+  state: any = {};
 
-  appState: AppState;
-  name: string;
+  login: string;
+  password: string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public storeProvider: StoreProvider) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad SamplePage');
-    this.sub = this.storeProvider.store.select('appState').subscribe((appState: AppState) => this.appStateChanged(appState));
+    this.sub = this.storeProvider.manager.selectUserMetadata().subscribe(
+      state => {
+        this.state = state;
+        console.log(this.state);
+      }
+    );
+  }
+
+  fetch() {
+    this.storeProvider.manager.appProductFetchRequest();
+    this.storeProvider.manager.appThemeFetchRequest();
+  }
+
+  loginRequest() {
+    this.storeProvider.manager.userMetadataSetCredentials(this.login, this.password);
+    this.storeProvider.manager.userMetadataAuthentifyRequest();
   }
 
   ionViewDidLeave() {
     if (this.sub) this.sub.unsubscribe();
-  }
-
-  appStateChanged(appState: AppState) {
-    this.appState = appState;
-    this.name = appState.name;
   }
 
 }

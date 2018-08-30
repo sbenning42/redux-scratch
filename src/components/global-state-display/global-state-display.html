@@ -1,0 +1,17 @@
+<!-- Generated template for the GlobalStateDisplayComponent component -->
+<ion-card *ngIf="globalState">
+  <ion-card-header>
+    <h1>Global State Display</h1>
+    <h2>Name: {{ globalState.name }}</h2>
+    <h3>Version: {{ globalState.version }}</h3>
+    <h6>Status: {{ globalState.online ? 'Online' : 'Offline' }}</h6>
+  </ion-card-header>
+  <ion-card-content>
+    <h1>Loading: {{ globalState.loading ? 'Yes' : 'No' }}</h1>
+    <h3>Set a new Error:</h3>
+    <ion-input [(ngModel)]="message" type="text" placeholder="Error Message"></ion-input>
+    <button ion-button (click)="setNewError()">Set Error</button>
+    <h2>Error: {{ globalState.error?.message }}</h2>
+    <p *ngFor="let error of globalState.errors; let i = index">Error {{ i }}: {{ error.message }}</p>
+  </ion-card-content>
+</ion-card>
